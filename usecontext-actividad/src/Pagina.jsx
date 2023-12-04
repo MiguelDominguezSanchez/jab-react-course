@@ -1,18 +1,34 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import Contexto from './contexto/Contexto'
+// Importación de componentes
 import Profesora from './Profesora'
 import Ubicacion from './Ubicacion'
 
 function Pagina() {
+	const { alumno } = useContext(Contexto)
+	console.log(alumno)
+	const idioma = alumno[3].idioma
+	const [ocultar1, setOcultar1] = useState(false)
+	const [ocultar2, setOcultar2] = useState(false)
+	const mostrar1 = () => {
+		setOcultar1(!ocultar1)
+		setOcultar2(false)
+	}
+	const mostrar2 = () => {
+		setOcultar2(!ocultar2)
+		setOcultar1(false)
+	}
 	return (
 		<>
-			<h1>Título</h1>
-			<h2>Subtítulo</h2>
+			<h1>{alumno[idioma].titulo}</h1>
+			<h2>{alumno[idioma].texto}</h2>
 			<div className='botones'>
-				<button>Boton1</button>
-				<button>Boton2</button>
+				<button onClick={mostrar1}>{alumno[idioma].boton1}</button>
+				<button onClick={mostrar2}>{alumno[idioma].boton2}</button>
 			</div>
-			<Profesora />
-			<Ubicacion />
+			{/* Componentes que aparecen al hacer click */}
+			{ocultar1 ? <Profesora /> : null}
+			{ocultar2 ? <Ubicacion /> : null}
 		</>
 	)
 }
